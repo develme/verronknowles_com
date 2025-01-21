@@ -2,6 +2,7 @@ use actix_web::{get, web, App, HttpServer, Responder, HttpResponse};
 use serde_json::json;
 use tera::Tera;
 use serde::{Deserialize, Serialize};
+use std::fs;
 
 #[derive(Serialize, Deserialize)]
 struct MetaTag {
@@ -90,9 +91,9 @@ struct ParsedResume {
 // Load json from ./data/resume.json and return it at /resume
 #[get("/resume")]
 async fn resume() -> impl Responder {
-    let resume = include_str!("../data/resume.json");
+    let resume = fs::read_to_string("../data/resume.json").unwrap();
 
-    let parsed: ParsedResume = serde_json::from_str(resume).unwrap();
+    let parsed: ParsedResume = serde_json::from_str(&resume).unwrap();
 
     let json = json!({
         "status": "ok",
