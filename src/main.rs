@@ -140,7 +140,7 @@ async fn index(tera: web::Data<Tera>) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let mut tera = Tera::new("templates/**/*").unwrap();
+    let tera = Tera::new("templates/**/*").unwrap();
 
     HttpServer::new(move || {
         App::new()
